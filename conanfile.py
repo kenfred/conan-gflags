@@ -64,7 +64,10 @@ class GFlagsConan(ConanFile):
         self.copy(pattern="*.lib", dst="lib", src=libdir, keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ['gflags']
+        if self.options.shared:
+            self.cpp_info.libs = ['gflags', 'gflags_nothreads']
+        else:
+            self.cpp_info.libs = ['gflags_static', 'gflags_nothreads_static']
 
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("pthread")
